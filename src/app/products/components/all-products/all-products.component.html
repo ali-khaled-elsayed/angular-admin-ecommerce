@@ -1,0 +1,75 @@
+<div class="box mt-5">
+    <div class="my-2 w-25">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add product
+        </button>
+    </div>
+    <div class="row" *ngIf="!loading">
+        <table>
+            <thead>
+                <tr class="text-center">
+                    <th></th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of products">
+                    <td><img [src]="item.image" alt=""></td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.price }}</td>
+                    <td><button class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" (click)="update(item)"> update</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center w-100" *ngIf="loading">
+        <app-spinner></app-spinner>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <label for="">title</label>
+                    <input type="text" formControlName="title" class="form-control" placeholder="title">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="">price</label>
+                    <input type="text" formControlName="price"  class="form-control" placeholder="price">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <app-select [data] = "categories" [select]="form.value.category" [all]="false" [title] = "'Categories'" (selectedValue) = "getSelectedCategory($event)"></app-select>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="">Image</label>
+                    <img [src]="base64" alt="" >
+                    <input type="file" class="form-control" (change)="getImagePath($event)">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label for="">Description</label>
+                    <input type="text" formControlName="description"  class="form-control" placeholder="description">
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-success" [disabled]="!form.valid" (click)="addProduct()">Add Product</button>
+            </div>
+          </form>>
+        </div>
+      </div>
+    </div>
+  </div>
